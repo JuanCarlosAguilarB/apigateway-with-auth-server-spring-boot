@@ -25,4 +25,9 @@ public class User {
     private String password;
     private Boolean isVerified;
 
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String phone;
+
 }
