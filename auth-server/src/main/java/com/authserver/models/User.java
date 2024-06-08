@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-@Table
+@Table(name = "user")
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor

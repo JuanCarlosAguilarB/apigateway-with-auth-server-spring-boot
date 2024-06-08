@@ -7,4 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.UUID;
 
 public interface UserRepository extends CrudRepository<User, UUID> {
+
+    public Boolean existsByEmail(String email);
+    public Boolean existsByUserName(String userName);
+
 }
