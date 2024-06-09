@@ -1,37 +1,43 @@
 package com.authserver.services;
 
+import com.authserver.dto.UserRequest;
+import com.authserver.exception.BadRequestExceptionApi;
 import com.authserver.models.User;
 import com.authserver.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RegisterUserService {
 
-    /*
-    1) validate that we dont have registering a user with some username or email
-    2) encrypting the password of user
-    3) save user
-
-     */
 
     UserRepository userRepository;
+    BCryptPasswordEncoder passwordEncoder;
 
 
+    public void register (UserRequest userRequest){
 
-    public void register (User user){
+        Boolean isEmailRegistered = userRepository.existsByEmail(userRequest.getEmail());
+        Boolean isUserNameRegistered = userRepository.existsByUserName(userRequest.getUserName());
 
-        Boolean isEmailRegistered = userRepository.existsByEmail(user.getEmail());
-        Boolean isUserNameRegistered = userRepository.existsByUserName(user.getUserName());
+        if (isEmailRegistered) throw new BadRequestExceptionApi("Error to register user, email has been registered");
+        if (isUserNameRegistered) throw new BadRequestExceptionApi("Error to register user, username has been registered");
 
-        if (isEmailRegistered) throw new RuntimeException(" error to register user, email registered");
-        if (isUserNameRegistered) throw new RuntimeException(" error to register user, username registered");
+        User user = User.builder()
+                .userName(userRequest.getUserName())
+                .password(passwordEncoder.encode(userRequest.getPassword()))
+                .email(userRequest.getEmail())
+                .firstName(userRequest.getFirstName())
+                .lastName(userRequest.getLastName())
+                .isVerified(true) // TODO: make a strategy for checking email.
+                .build();
 
         userRepository.save(user);
     }
 
-    public RegisterUserService(UserRepository userRepository){
+    public RegisterUserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
         this.userRepository = userRepository;
+        this.passwordEncoder = bCryptPasswordEncoder;
     }
 
 }

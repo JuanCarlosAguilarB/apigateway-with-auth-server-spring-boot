@@ -1,14 +1,14 @@
 package com.authserver.controller;
 
 import com.authserver.dto.ResponseApi;
+import com.authserver.dto.UserRequest;
+import com.authserver.exception.BadRequestExceptionApi;
 import com.authserver.models.User;
 import com.authserver.repository.UserRepository;
 import com.authserver.services.RegisterUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -22,7 +22,7 @@ public class UserController {
 
 
     @PostMapping("/v1/user/")
-    public ResponseEntity<ResponseApi> registerUser(User user){
+    public ResponseEntity<ResponseApi> registerUser(@RequestBody UserRequest user){
 
         registerUserService.register(user);
 
@@ -34,8 +34,5 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(messageApi);
 
     }
-
-
-
 
 }
