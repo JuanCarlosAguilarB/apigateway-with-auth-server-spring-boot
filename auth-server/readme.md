@@ -26,8 +26,8 @@ This project is an authentication server implemented with Spring Boot. It provid
 
 The authentication server exposes the following endpoints:
 
-- `http://localhost:8081/login/v1/`: Endpoint to authenticate and obtain an access token.
-- `http://localhost:8081/user/v1/user/`: Endpoint to register a new user.
+- `http://localhost:8081/auth/v1/login/`: Endpoint to authenticate and obtain an access token.
+- `http://localhost:8081/auth/v1/sing-up//`: Endpoint to register a new user.
 
 You can send HTTP requests to these endpoints using any HTTP client or tool such as cURL or Postman.
 
